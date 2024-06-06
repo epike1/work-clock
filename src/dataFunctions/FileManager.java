@@ -2,10 +2,10 @@ package dataFunctions;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class FileManager {
 
@@ -51,6 +51,58 @@ public class FileManager {
             e.printStackTrace();
         }
 
-        return numOfLines == 2;
+        return numOfLines >= 2;
     }
+
+    public static void updateInfo(String name, double pay, ArrayList<int[]> breakList) {
+
+        try {
+            BufferedWriter infoWriter = new BufferedWriter(new FileWriter(infoFile));
+
+            infoWriter.write(name);
+            infoWriter.write(Double.toString(pay));
+
+            for (int[] list : breakList) { // write each break range and break time in one line each
+                String line = "";
+
+                for (int num : list) {
+                    line += num + " ";
+                }
+
+                infoWriter.write(line);
+            }
+
+            infoWriter.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static ArrayList<Object> getInfo() {
+
+        ArrayList<Object> infoList = new ArrayList<>();
+
+        try {
+
+            BufferedReader infoReader = new BufferedReader(new FileReader(infoFile));
+
+            infoList.add(infoReader.readLine()); // getting name
+            infoList.add(infoReader.readLine()); // getting pay
+
+            int[] breakList = {0, 0, 0};
+            while (true) {
+
+                String[] numList =  infoReader.readLine().split(" ");
+
+                if numList.null
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return infoList;
+    };
 }
