@@ -9,9 +9,9 @@ import java.util.ArrayList;
 
 public class FileManager {
 
-    private static File infoFile = new File("src/info.txt");
+    private static final File infoFile = new File("src/info.txt");
 
-    private static File workFile = new File("src/work.txt");
+    private static final File workFile = new File("src/work.txt");
 
     public static void setFile() { // checks if files already exists and creates if they do not
 
@@ -63,13 +63,13 @@ public class FileManager {
             infoWriter.write(Double.toString(pay));
 
             for (int[] list : breakList) { // write each break range and break time in one line each
-                String line = "";
+                StringBuilder line = new StringBuilder();
 
                 for (int num : list) {
-                    line += num + " ";
+                    line.append(num).append(" ");
                 }
 
-                infoWriter.write(line);
+                infoWriter.write(line.toString());
             }
 
             infoWriter.close();
@@ -91,12 +91,24 @@ public class FileManager {
             infoList.add(infoReader.readLine()); // getting name
             infoList.add(infoReader.readLine()); // getting pay
 
-            int[] breakList = {0, 0, 0};
+
+
             while (true) {
 
+                int[] breakList = {0, 0, 0};
                 String[] numList =  infoReader.readLine().split(" ");
 
-                if numList.null
+                if (numList.length == 0) {
+                    break;
+                } else {
+
+                    for (int i = 0; i < numList.length; i++) {
+                        breakList[i] = Integer.parseInt(numList[i]);
+                    }
+
+                }
+
+                infoList.add(breakList);
             }
 
         } catch (IOException e) {
@@ -105,4 +117,52 @@ public class FileManager {
 
         return infoList;
     };
+
+    public static void writeWorkTime(ArrayList<String[]> workTimes) {
+
+        try {
+            BufferedWriter workWriter = new BufferedWriter(new FileWriter(workFile));
+
+            for (String[] list : workTimes) {
+
+                StringBuilder line = new StringBuilder();
+
+                for (String str : list) {
+                    line.append(str).append(" ");
+                }
+
+                workWriter.write(line.toString());
+            }
+
+            workWriter.close();
+
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+    public static ArrayList<String[]> getWorkTime() {
+
+        ArrayList<String[]> workList = new ArrayList<String[]>();
+
+        try {
+
+            BufferedReader workReader = new BufferedReader(new FileReader(workFile));
+
+            while (true) {
+                String[] line = workReader.readLine().split(" ");
+
+                if (line.length == 0) {
+                    break;
+                } else {
+                    workList.add(line);
+                }
+
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return workList;
+    }
 }
