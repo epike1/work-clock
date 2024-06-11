@@ -1,12 +1,5 @@
-package dataFunctions;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.FileReader;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.util.ArrayList;
 
+ file-manager-functionality
 public class FileManager {
 
     private static final File infoFile = new File("src/info.txt");
@@ -166,3 +159,5 @@ public class FileManager {
         return workList;
     }
 }
+
+ ver0.1
