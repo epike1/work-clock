@@ -4,9 +4,5 @@ import dataFunctions.*;
 
 public class Main {
     public static void main(String[] args) {
-
-        FileManager.setFile();
-
-        System.out.println(FileManager.checkInfoFile());
     }
 }
