@@ -1,20 +1,29 @@
-// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
-// then press Enter. You can now see whitespace characters in your code.
-import dataFunctions.*;
 import screenFunctions.*;
-import java.util.ArrayList;
+import dataFunctions.FileManager;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class Main {
     public static void main(String[] args) {
 
-        ArrayList<WorkEntry> workList = new ArrayList<WorkEntry>();
-        workList.add(new WorkEntry("09/06/2024", 15.00, 5, 40));
-        workList.add(new WorkEntry("10/06/2024", 15.00, 5, 40));
-        workList.add(new WorkEntry("09/07/2024", 15.00, 5, 40));
-        workList.add(new WorkEntry("09/05/2024", 15.00, 5, 40));
-        workList.add(new WorkEntry("08/06/2024", 15.00, 5, 40));
-        workList.add(new WorkEntry("09/06/2023", 15.00, 5, 40));
+        JFrame frame = new JFrame();
+        frame.setSize(new Dimension(800, 600));
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
+        frame.setVisible(true);
 
-        workList = trackerFunctions.sortByDays(workList);
+        FileManager.setFile();
+        FrameManager.createTitle(frame);
+
+        System.out.println("completed frame");
+
+        if (FileManager.checkInfoFile()) {
+            FrameManager.sendSignal(PanelName.MainMenu);
+        } else {
+            FrameManager.sendSignal(PanelName.FirstTime);
+        }
+
+
     }
 }

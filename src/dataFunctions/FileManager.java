@@ -1,17 +1,12 @@
 package dataFunctions;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.FileReader;
-import java.io.BufferedReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 public class FileManager {
 
-    private static final File infoFile = new File("src/info.txt");
+    private static final File infoFile = new File("work-clock-ver0.1/src/info.txt");
 
-    private static final File workFile = new File("src/work.txt");
+    private static final File workFile = new File("work-clock-ver0.1/src/work.txt");
 
     public static void setFile() { // checks if files already exists and creates if they do not
 
