@@ -1,8 +1,9 @@
 import screenFunctions.*;
 import dataFunctions.FileManager;
-
+import screenForms.*;
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
@@ -19,7 +20,11 @@ public class Main {
         System.out.println("completed frame");
 
         if (FileManager.checkInfoFile()) {
+            ArrayList<Object> infoList = FileManager.getInfo();
+
+            FrameManager.updateInfo(infoList.get(0).toString(), Double.parseDouble(infoList.get(1).toString()));
             FrameManager.sendSignal(PanelName.MainMenu);
+
         } else {
             FrameManager.sendSignal(PanelName.FirstTime);
         }

@@ -43,7 +43,7 @@
         </constraints>
         <properties>
           <font size="24"/>
-          <text value="McVer 0.1"/>
+          <text value="McVer 0.2"/>
           <verticalAlignment value="1"/>
           <verticalTextPosition value="3"/>
         </properties>
