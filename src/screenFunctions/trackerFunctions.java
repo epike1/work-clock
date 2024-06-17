@@ -22,18 +22,8 @@ public class trackerFunctions {
         return decimalOne > decimalTwo;
     }
     public static ArrayList<WorkEntry> sortByDays(ArrayList<WorkEntry> workEntryList) {
-
-        for (WorkEntry i : workEntryList) {
-
-            System.out.print(i.getDate() + " ");
-        }
-        System.out.println();
+        
         sort(workEntryList, 0, workEntryList.size() - 1);
-        for (WorkEntry i : workEntryList) {
-
-            System.out.print(i.getDate() + " ");
-        }
-
         return workEntryList;
     }
 

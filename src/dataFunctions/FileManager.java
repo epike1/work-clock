@@ -1,27 +1,18 @@
 package dataFunctions;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.FileReader;
-import java.io.BufferedReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 public class FileManager {
 
-    private static final File infoFile = new File("src/info.txt");
+    private static final File infoFile = new File("work-clock-ver0.2/src/info.txt");
 
-    private static final File workFile = new File("src/work.txt");
+    private static final File workFile = new File("work-clock-ver0.2/src/work.txt");
 
     public static void setFile() { // checks if files already exists and creates if they do not
 
         try {
 
-            if (infoFile.createNewFile()) {
-                System.out.println("File created.");
-            } else {
-                System.out.println("File already exists.");
-            }
+            infoFile.createNewFile();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -29,11 +20,7 @@ public class FileManager {
 
         try {
 
-            if (workFile.createNewFile()) {
-                System.out.println("File created.");
-            } else {
-                System.out.println("File already exists.");
-            }
+            workFile.createNewFile();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -47,10 +34,11 @@ public class FileManager {
         try {
             BufferedReader infoReader = new BufferedReader(new FileReader(infoFile));
             while (infoReader.readLine() != null) numOfLines++; // go through each line and check for text
+            infoReader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        
         return numOfLines >= 2;
     }
 
@@ -60,7 +48,9 @@ public class FileManager {
             BufferedWriter infoWriter = new BufferedWriter(new FileWriter(infoFile));
 
             infoWriter.write(name);
+            infoWriter.newLine();
             infoWriter.write(Double.toString(pay));
+            infoWriter.newLine();
 
             for (int[] list : breakList) { // write each break range and break time in one line each
                 StringBuilder line = new StringBuilder();
@@ -70,6 +60,7 @@ public class FileManager {
                 }
 
                 infoWriter.write(line.toString());
+                infoWriter.newLine();
             }
 
             infoWriter.close();
@@ -92,25 +83,31 @@ public class FileManager {
             infoList.add(infoReader.readLine()); // getting pay
 
 
-
+            ArrayList<int[]> breakList = new ArrayList<int[]>();
             while (true) {
 
-                int[] breakList = {0, 0, 0};
-                String[] numList =  infoReader.readLine().split(" ");
+                int[] breakEntry = {0, 0, 0};
+                String numString = infoReader.readLine();
+                if (numString != null) {
+                	String[] numList =  numString.split(" ");
+                
+                
 
-                if (numList.length == 0) {
-                    break;
-                } else {
+                
 
-                    for (int i = 0; i < numList.length; i++) {
-                        breakList[i] = Integer.parseInt(numList[i]);
-                    }
-
+                for (int i = 0; i < numList.length; i++) {
+                       breakEntry[i] = Integer.parseInt(numList[i]);
                 }
 
-                infoList.add(breakList);
+                breakList.add(breakEntry);
+                
+                } else {
+                	break;
+                }
             }
-
+            
+            infoList.add(breakList);
+            infoReader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -118,20 +115,20 @@ public class FileManager {
         return infoList;
     };
 
-    public static void writeWorkTime(ArrayList<String[]> workTimes) {
+    public static void writeWorkTime(ArrayList<WorkEntry> workTimes) {
 
         try {
             BufferedWriter workWriter = new BufferedWriter(new FileWriter(workFile));
 
-            for (String[] list : workTimes) {
+            for (WorkEntry entry : workTimes) {
 
                 StringBuilder line = new StringBuilder();
 
-                for (String str : list) {
-                    line.append(str).append(" ");
-                }
+                line.append(entry.getDate()).append(" ");
+                line.append(entry.getHours()).append(" ");
 
                 workWriter.write(line.toString());
+                workWriter.newLine();
             }
 
             workWriter.close();
@@ -140,24 +137,28 @@ public class FileManager {
             e.printStackTrace();
         }
     }
-    public static ArrayList<String[]> getWorkTime() {
+    
+    public static ArrayList<WorkEntry> getWorkTimes() {
 
-        ArrayList<String[]> workList = new ArrayList<String[]>();
+        ArrayList<WorkEntry> workList = new ArrayList<WorkEntry>();
 
         try {
 
             BufferedReader workReader = new BufferedReader(new FileReader(workFile));
 
             while (true) {
-                String[] line = workReader.readLine().split(" ");
-
-                if (line.length == 0) {
-                    break;
+                String entryString = workReader.readLine();
+                
+                if (entryString == null) {
+                	break;
                 } else {
-                    workList.add(line);
+                	String[] entryList = entryString.split(" ");
+                	workList.add(new WorkEntry(entryList[0], Double.parseDouble(entryList[1])));
                 }
 
             }
+            
+            workReader.close();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -165,4 +166,19 @@ public class FileManager {
 
         return workList;
     }
+    
+    @SuppressWarnings("unchecked")
+	public static ArrayList<int[]> convertFromObjectList(Object object) { // converts object list to array list of integer lists
+    	
+    	ArrayList<int[]> arrayList = new ArrayList<int[]>();
+    	
+    	
+    	if (object instanceof ArrayList<?>) {
+    		arrayList = (ArrayList<int[]>) object;
+    	}
+    	
+    	return arrayList;
+    }
+
+    
 }
